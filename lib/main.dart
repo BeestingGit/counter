@@ -90,7 +90,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Flutter Demo Home Page')),
+      appBar: AppBar(title: const Text('Age Counter')),
       body: Consumer<Counter>(
         builder: (context, counter, child) {
           return Container(
@@ -99,18 +99,35 @@ class MyHomePage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('You have pushed the button this many times:'),
-                  // Consumer looks for an ancestor Provider widget
-                  // and retrieves its model (Counter, in this case).
-                  // Then it uses that model to build widgets, and will trigger
-                  // rebuilds if the model is updated.
                   Text(
-                    '${counter.value}',
+                    'I am ${counter.value} years old',
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                   Text(
                     getAgeMilestones(counter.value),
                     style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  Slider(
+                    value: counter.value.toDouble(),
+                    min: 0,
+                    max: 99,
+                    divisions: 99,
+                    label: counter.value.toString(),
+                    onChanged: (double newValue) {
+                      counter.value = newValue.toInt();
+                      counter.notifyListeners();
+                    },
+                  ),
+                  LinearProgressIndicator(
+                    value: counter.value / 99,
+                    backgroundColor: Colors.grey[200],
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      counter.value <= 33
+                          ? Colors.green
+                          : counter.value <= 67
+                          ? Colors.yellow
+                          : Colors.red,
+                    ),
                   ),
                 ],
               ),
@@ -120,21 +137,6 @@ class MyHomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // You can access your providers anywhere you have access
-          // to the context. One way is to use Provider.of<Counter>(context).
-          // The provider package also defines extension methods on the context
-          // itself. You can call context.watch<Counter>() in a build method
-          // of any widget to access the current state of Counter, and to ask
-          // Flutter to rebuild your widget anytime Counter changes.
-          //
-          // You can't use context.watch() outside build methods, because that
-          // often leads to subtle bugs. Instead, you should use
-          // context.read<Counter>(), which gets the current state
-          // but doesn't ask Flutter for future rebuilds.
-          //
-          // Since we're in a callback that will be called whenever the user
-          // taps the FloatingActionButton, we are not in the build method here.
-          // We should use context.read().
           var counter = context.read<Counter>();
           counter.increment();
         },

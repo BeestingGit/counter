@@ -55,6 +55,15 @@ class Counter with ChangeNotifier {
   }
 }
 
+// Defining the Age Milestones
+String getAgeMilestones(int age) {
+  if (age <= 12) return "You're a child!";
+  if (age <= 19) return "Teenager time!";
+  if (age <= 30) return "You're a young adult!";
+  if (age <= 50) return "You're an adult!";
+  return "Golden years!";
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override

@@ -91,24 +91,32 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Flutter Demo Home Page')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            // Consumer looks for an ancestor Provider widget
-            // and retrieves its model (Counter, in this case).
-            // Then it uses that model to build widgets, and will trigger
-            // rebuilds if the model is updated.
-            Consumer<Counter>(
-              builder:
-                  (context, counter, child) => Text(
+      body: Consumer<Counter>(
+        builder: (context, counter, child) {
+          return Container(
+            color: getBackgroundColor(counter.value),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('You have pushed the button this many times:'),
+                  // Consumer looks for an ancestor Provider widget
+                  // and retrieves its model (Counter, in this case).
+                  // Then it uses that model to build widgets, and will trigger
+                  // rebuilds if the model is updated.
+                  Text(
                     '${counter.value}',
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
+                  Text(
+                    getAgeMilestones(counter.value),
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

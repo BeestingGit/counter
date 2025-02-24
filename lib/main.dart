@@ -64,6 +64,15 @@ String getAgeMilestones(int age) {
   return "Golden years!";
 }
 
+// Change Background Color Alongside Age Messages
+Color getBackgroundColor(int age) {
+  if (age <= 12) return Colors.lightBlue;
+  if (age <= 19) return Colors.lightGreen;
+  if (age <= 30) return Colors.yellow;
+  if (age <= 50) return Colors.orange;
+  return Colors.grey;
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
